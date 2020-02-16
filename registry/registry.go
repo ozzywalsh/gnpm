@@ -2,6 +2,7 @@ package registry
 
 import (
 	"encoding/json"
+	"errors"
 	"net/url"
 	"path"
 )
@@ -36,6 +37,10 @@ func (r *Registry) Metadata(pkg string) (*Metadata, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode == 404 {
+		return nil, errors.New("package not found")
+	}
 
 	var m *Metadata
 	if err := json.NewDecoder(resp.Body).Decode(&m); err != nil {
