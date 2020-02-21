@@ -25,8 +25,8 @@ type Metadata struct {
 	Versions map[string]Manifest
 }
 
-// Metadata fetches the package metadata of a package (https://github.com/npm/registry/blob/master/docs/responses/package-metadata.md)
-func (r *Registry) Metadata(pkg string) (*Metadata, error) {
+// GetMetadata fetches the package metadata of a package (https://github.com/npm/registry/blob/master/docs/responses/package-metadata.md)
+func (r *Registry) GetMetadata(pkg string) (*Metadata, error) {
 	req, err := r.client.NewRequest("GET", pkg, nil)
 	if err != nil {
 		return nil, err
@@ -50,8 +50,8 @@ func (r *Registry) Metadata(pkg string) (*Metadata, error) {
 	return m, nil
 }
 
-// Manifest fetches the manifest of a package
-func (r *Registry) Manifest(pkg, version string) (*Manifest, error) {
+// GetManifest fetches the manifest of a package
+func (r *Registry) GetManifest(pkg, version string) (*Manifest, error) {
 	req, err := r.client.NewRequest("GET", path.Join(pkg, version), nil)
 	if err != nil {
 		return nil, err
